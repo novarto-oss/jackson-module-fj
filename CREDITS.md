@@ -1,0 +1,1 @@
+- The initial version of this work was in parts based on https://github.com/vavr-io/vavr-jackson
