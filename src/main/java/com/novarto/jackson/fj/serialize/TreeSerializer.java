@@ -8,9 +8,6 @@ import fj.data.Tree;
 
 import java.io.IOException;
 
-/**
- * Created by fmap on 09.12.16.
- */
 public class TreeSerializer extends BaseSerializer<Tree<?>>
 {
     private static final long serialVersionUID = 1L;

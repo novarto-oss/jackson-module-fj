@@ -36,19 +36,6 @@ public class OptionSerializer extends BaseSerializer<Option<?>>
         this.plainMode = plainMode;
     }
 
-    //    @Override
-    //    Object toJavaObj(Option<?> value) throws IOException
-    //    {
-    //        if (value.isDefined())
-    //        {
-    //            return plainMode ? value.get() : Arrays.asList("defined", value.get());
-    //        }
-    //        else
-    //        {
-    //            return plainMode ? null : Collections.singleton("undefined");
-    //        }
-    //    }
-
     @Override
     public boolean isEmpty(SerializerProvider provider, Option<?> value)
     {

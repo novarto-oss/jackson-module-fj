@@ -7,9 +7,6 @@ import org.junit.Test;
 
 import static com.novarto.jackson.fj.JsonParser.MAPPER;
 
-/**
- * Created by fmap on 09.12.16.
- */
 public class TreeSerializerTest
 {
     @Test

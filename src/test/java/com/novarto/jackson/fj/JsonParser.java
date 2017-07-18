@@ -4,9 +4,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-/**
- * Created by fmap on 27.11.15.
- */
 public class JsonParser
 {
     public static final ObjectMapper MAPPER;

@@ -21,9 +21,6 @@ import static fj.test.Arbitrary.*;
 import static fj.test.Property.prop;
 import static fj.test.Property.property;
 
-/**
- * Created by fmap on 27.11.15.
- */
 @RunWith(PropertyTestRunner.class)
 public class FjModuleTest
 {

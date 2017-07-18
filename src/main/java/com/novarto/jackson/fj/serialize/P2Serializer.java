@@ -8,9 +8,6 @@ import fj.P2;
 
 import java.io.IOException;
 
-/**
- * Created by fmap on 06.01.17.
- */
 public class P2Serializer extends BaseSerializer<P2<?, ?>>
 {
 

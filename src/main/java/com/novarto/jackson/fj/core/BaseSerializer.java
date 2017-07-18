@@ -33,16 +33,6 @@ public abstract class BaseSerializer<T> extends StdSerializer<T>
         super(type);
     }
 
-    //    @Override
-    //    public void serialize(T value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-    //        Object obj = toJavaObj(value);
-    //        if (obj == null) {
-    //            provider.getDefaultNullValueSerializer().serialize(null, gen, provider);
-    //        } else {
-    //            final JsonSerializer<Object> ser = provider.findTypedValueSerializer(obj.getClass(), true, null);
-    //            ser.serialize(obj, gen, provider);
-    //        }
-    //    }
 
     @Override
     public void serializeWithType(T value, JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer)

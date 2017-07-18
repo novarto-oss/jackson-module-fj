@@ -12,9 +12,6 @@ import java.io.IOException;
 
 import static fj.P.p;
 
-/**
- * Created by fmap on 06.01.17.
- */
 public class P2Deserializer extends ValueDeserializer<P2<?, ?>>
 {
     private static final long serialVersionUID = 1L;
