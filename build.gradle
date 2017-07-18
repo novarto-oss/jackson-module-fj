@@ -1,0 +1,46 @@
+group 'com.novarto'
+version '0.9-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url 'https://oss.jfrog.org/artifactory/libs-snapshot/'
+        }
+    }
+    dependencies {
+        classpath group: 'com.novarto', name: 'java-conventions',
+                version: '0.9.1-SNAPSHOT'
+    }
+}
+
+repositories {
+    maven {
+        url 'https://oss.jfrog.org/artifactory/libs-snapshot/'
+    }
+}
+
+apply plugin: 'com.novarto.javaconventions'
+apply plugin: 'com.novarto.osspublish'
+
+
+
+javaconventions {
+    ci = System.getProperty("ci")!=null
+}
+
+
+
+dependencies {
+    def jackson_version = "2.8.9"
+    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.module:jackson-module-parameter-names:$jackson_version"
+    compile 'org.functionaljava:functionaljava_1.8:4.7'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'org.functionaljava:functionaljava-quickcheck:4.7'
+    testCompile 'com.novarto:lang:0.9-SNAPSHOT'
+
+}
