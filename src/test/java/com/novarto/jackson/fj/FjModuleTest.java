@@ -178,6 +178,16 @@ public class FjModuleTest
 
     }
 
+    public Property canDeserializeTreeFloof()
+    {
+
+        return property(treeGen(arbFloof, 3, 3), tree -> serializeDeserialize(tree,
+                new TypeReference<Tree<Floof>>()
+                {
+                }));
+
+    }
+
     public Property canDeserializeTreeSimple()
     {
 
@@ -187,6 +197,30 @@ public class FjModuleTest
                 }));
 
     }
+
+    public Property canDeserializeTreeComplex()
+    {
+
+        return property(treeGen(arbComplexBean, 3, 3), tree -> serializeDeserialize(tree,
+                new TypeReference<Tree<ComplexBean>>()
+                {
+                }));
+
+    }
+
+    public Property canDeserializeTreeSimpleBean()
+    {
+
+        return property(treeGen(arbSimpleBean, 3, 3), tree -> serializeDeserialize(tree,
+                new TypeReference<Tree<SimpleBean>>()
+                {
+                }));
+
+    }
+
+
+
+
 
     private static <A> Property serializeDeserialize(A in, Either<Class<A>, JavaType> type, Equal<A> equal)
     {
@@ -356,6 +390,11 @@ public class FjModuleTest
             int result = floofList != null ? floofList.hashCode() : 0;
             result = 31 * result + (description != null ? description.hashCode() : 0);
             return result;
+        }
+
+        @Override public String toString()
+        {
+            return "ComplexBean{" + "floofList=" + floofList + ", description='" + description + '\'' + '}';
         }
     }
 
