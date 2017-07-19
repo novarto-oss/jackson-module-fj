@@ -181,7 +181,7 @@ public class FjModuleTest
     public Property canDeserializeTreeFloof()
     {
 
-        return property(treeGen(arbFloof, 3, 3), tree -> serializeDeserialize(tree,
+        return property(treeGen(arbFloof, 5, 10), tree -> serializeDeserialize(tree,
                 new TypeReference<Tree<Floof>>()
                 {
                 }));
@@ -191,7 +191,7 @@ public class FjModuleTest
     public Property canDeserializeTreeSimple()
     {
 
-        return property(treeGen(arbInteger, 3, 3), tree -> serializeDeserialize(tree,
+        return property(treeGen(arbInteger, 5, 10), tree -> serializeDeserialize(tree,
                 new TypeReference<Tree<Integer>>()
                 {
                 }));
@@ -201,7 +201,7 @@ public class FjModuleTest
     public Property canDeserializeTreeComplex()
     {
 
-        return property(treeGen(arbComplexBean, 3, 3), tree -> serializeDeserialize(tree,
+        return property(treeGen(arbComplexBean, 3, 5), tree -> serializeDeserialize(tree,
                 new TypeReference<Tree<ComplexBean>>()
                 {
                 }));
@@ -211,7 +211,7 @@ public class FjModuleTest
     public Property canDeserializeTreeSimpleBean()
     {
 
-        return property(treeGen(arbSimpleBean, 3, 3), tree -> serializeDeserialize(tree,
+        return property(treeGen(arbSimpleBean, 5, 10), tree -> serializeDeserialize(tree,
                 new TypeReference<Tree<SimpleBean>>()
                 {
                 }));

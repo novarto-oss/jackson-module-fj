@@ -1,7 +1,6 @@
 package com.novarto.jackson.fj;
 
-import fj.data.List;
-import fj.data.Tree;
+import fj.data.*;
 import fj.test.Gen;
 import fj.test.Rand;
 
@@ -18,31 +17,30 @@ public final class GenUtils
         throw new UnsupportedOperationException();
     }
 
-    public static <A> Gen<Tree<A>> treeGen(Gen<A> elementGen, int depthLimit, int breadthLimit)
-    {
-        return treeGen(elementGen, depthLimit, breadthLimit, new AtomicInteger(), Rand.standard);
-    }
 
-    private static <A> Gen<Tree<A>> treeGen(Gen<A> elementGen, int depthLimit, int breadthLimit, AtomicInteger i, Rand r)
+    public static <A> Gen<Tree<A>> treeGen(Gen<A> elementGen, int depthLimit, int breadthLimit)
     {
 
         return arbBoolean
-                .bind(hasChildren -> elementGen.bind(data -> sizedListGen(elementGen, breadthLimit).map(children -> {
+                .bind(hasChildren -> elementGen.bind(data -> sizedListGen(elementGen, breadthLimit).bind(children -> {
                     if (hasChildren && depthLimit > 0)
                     {
-                        return Tree.node(data, children.toStream().map(child -> {
-                            i.incrementAndGet();
-                            return treeGen(elementGen, depthLimit - 1, breadthLimit, i, r).gen(i.get(), r);
-                        }));
+                        List<Gen<Tree<A>>> tmp = children.map(child ->
+                                treeGen(elementGen, depthLimit - 1, breadthLimit));
+
+                        Gen<Stream<Tree<A>>> childStreamGen = Gen.sequence(tmp).map(xs -> xs.toStream());
+
+                        return childStreamGen.map(xs -> Tree.node(data, xs));
                     }
                     else
                     {
-                        return Tree.leaf(data);
+                        return Gen.value(Tree.leaf(data));
                     }
                 })));
 
-
     }
+
+
 
     public static <A> Gen<List<A>> sizedListGen(Gen<A> dataGen, int limit)
     {

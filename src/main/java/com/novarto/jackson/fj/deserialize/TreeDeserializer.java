@@ -46,7 +46,6 @@ public class TreeDeserializer extends ValueDeserializer<Tree<?>>
                 {
                     p.nextToken();
 
-                    //// TODO: 04.07.16 check this works for nested structures beans lists etc
                     Tree<Object> currNode = Tree.leaf(p.readValueAs(containedType.getRawClass()));
 
                     //FIRST ITERATION, create zipper
