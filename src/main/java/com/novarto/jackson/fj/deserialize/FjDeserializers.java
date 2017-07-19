@@ -75,6 +75,11 @@ public class FjDeserializers extends Deserializers.Base
             return new HashMapDeserializer(type);
         }
 
+        if (Tree.class.isAssignableFrom(raw))
+        {
+            return new TreeDeserializer(type);
+        }
+
 
 
         return super.findBeanDeserializer(type, config, beanDesc);

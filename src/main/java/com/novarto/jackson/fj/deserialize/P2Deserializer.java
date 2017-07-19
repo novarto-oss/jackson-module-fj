@@ -16,12 +16,10 @@ public class P2Deserializer extends ValueDeserializer<P2<?, ?>>
 {
     private static final long serialVersionUID = 1L;
 
-    private final JavaType javaType;
 
     public P2Deserializer(JavaType valueType)
     {
         super(valueType, 2);
-        this.javaType = valueType;
     }
 
     @Override public P2<?, ?> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException

@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+import static com.novarto.jackson.fj.GenUtils.treeGen;
 import static com.novarto.lang.testutil.TestUtil.tryTo;
 import static fj.P.p;
 import static fj.data.Either.left;
@@ -177,6 +178,15 @@ public class FjModuleTest
 
     }
 
+    public Property canDeserializeTreeSimple()
+    {
+
+        return property(treeGen(arbInteger, 3, 3), tree -> serializeDeserialize(tree,
+                new TypeReference<Tree<Integer>>()
+                {
+                }));
+
+    }
 
     private static <A> Property serializeDeserialize(A in, Either<Class<A>, JavaType> type, Equal<A> equal)
     {
@@ -194,18 +204,18 @@ public class FjModuleTest
         return prop(success);
     }
 
-    private static <A> Property serializeDeserialize(A in, Either<Class<A>, JavaType> type)
+    public static <A> Property serializeDeserialize(A in, Either<Class<A>, JavaType> type)
     {
         return serializeDeserialize(in, type, Equal.anyEqual());
     }
 
-    private static <A> Property serializeDeserialize(A in, TypeReference<A> type)
+    public static <A> Property serializeDeserialize(A in, TypeReference<A> type)
     {
 
         return serializeDeserialize(in, right(JsonParser.MAPPER.getTypeFactory().constructType(type)));
     }
 
-    private static <A> Property serializeDeserialize(A in, TypeReference<A> type, Equal<A> customEqual)
+    public static <A> Property serializeDeserialize(A in, TypeReference<A> type, Equal<A> customEqual)
     {
 
         return serializeDeserialize(in, right(JsonParser.MAPPER.getTypeFactory().constructType(type)), customEqual);
