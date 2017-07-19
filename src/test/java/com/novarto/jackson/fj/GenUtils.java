@@ -1,10 +1,9 @@
 package com.novarto.jackson.fj;
 
-import fj.data.*;
+import fj.data.List;
+import fj.data.Stream;
+import fj.data.Tree;
 import fj.test.Gen;
-import fj.test.Rand;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static fj.test.Arbitrary.arbBoolean;
 import static fj.test.Gen.choose;
