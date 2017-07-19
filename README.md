@@ -40,6 +40,19 @@ If you're using immutable data structures, chances are you are also using immuta
 Therefore `jackson-module-fj` automatically registers the [parameter names module](https://github.com/FasterXML/jackson-modules-java8/tree/master/parameter-names).
 This way serialization / deserialization of immutable java classes works out of the box, without having to specify annotations, etc.
 
+## Compiler settings
+
+For [parameter names module](https://github.com/FasterXML/jackson-modules-java8/tree/master/parameter-names) to work,
+you need to retain parameter information in the produced bytecode. This happens via the `-parameters` compiler flag.
+
+In gradle this is achieved like this:
+
+```groovy
+[compileJava, compileTestJava].each() {
+    it.options.compilerArgs += ["-parameters"]
+}
+```
+
 # Features
 
 ## Supported data structures
