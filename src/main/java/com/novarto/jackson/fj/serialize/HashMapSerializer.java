@@ -20,10 +20,10 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.novarto.jackson.fj.core.BaseSerializer;
 import fj.data.HashMap;
-import fj.function.Effect0;
-import fj.function.TryEffect0;
 
 import java.io.IOException;
+
+import static com.novarto.jackson.fj.util.Util.rethrow;
 
 public class HashMapSerializer extends BaseSerializer<HashMap<?, ?>>
 {
@@ -43,28 +43,9 @@ public class HashMapSerializer extends BaseSerializer<HashMap<?, ?>>
         {
             gen.writeFieldName(x._1().toString());
             gen.writeObject(x._2());
-        }));
+        }).f());
+        gen.writeEndObject();
     }
 
-    //    @Override
-    //    Object toJavaObj(Map<?, ?> value) throws IOException {
-    //        final LinkedHashMap<Object, Object> result = new LinkedHashMap<>();
-    //        value.forEach(e -> result.put(e._1, e._2));
-    //        return result;
-    //    }
 
-    private static Effect0 rethrow(TryEffect0<Exception> body)
-    {
-        return () ->
-        {
-            try
-            {
-                body.f();
-            }
-            catch (Exception e)
-            {
-                throw new RuntimeException(e);
-            }
-        };
-    }
 }

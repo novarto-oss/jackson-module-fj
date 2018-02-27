@@ -23,6 +23,7 @@ import com.novarto.jackson.fj.FjModule;
 import fj.P1;
 import fj.P2;
 import fj.data.*;
+import fj.data.hamt.HashArrayMappedTrie;
 
 public class FjDeserializers extends Deserializers.Base
 {
@@ -78,6 +79,11 @@ public class FjDeserializers extends Deserializers.Base
         if (Tree.class.isAssignableFrom(raw))
         {
             return new TreeDeserializer(type);
+        }
+
+        if (HashArrayMappedTrie.class.isAssignableFrom(raw))
+        {
+            return new HamtDeserializer(type);
         }
 
 

@@ -24,6 +24,7 @@ import com.novarto.jackson.fj.FjModule;
 import fj.P1;
 import fj.P2;
 import fj.data.*;
+import fj.data.hamt.HashArrayMappedTrie;
 
 public class FjSerializers extends Serializers.Base
 {
@@ -78,6 +79,11 @@ public class FjSerializers extends Serializers.Base
         if (P2.class.isAssignableFrom(raw))
         {
             return new P2Serializer(type);
+        }
+
+        if (HashArrayMappedTrie.class.isAssignableFrom(raw))
+        {
+            return new HamtSerializer(type);
         }
 
         return super.findSerializer(config, type, beanDesc);

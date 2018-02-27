@@ -2,10 +2,9 @@ package com.novarto.jackson.fj;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
-import fj.Equal;
-import fj.P1;
-import fj.P2;
+import fj.*;
 import fj.data.*;
+import fj.data.hamt.HashArrayMappedTrie;
 import fj.test.Gen;
 import fj.test.Property;
 import fj.test.runner.PropertyTestRunner;
@@ -13,7 +12,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import static com.novarto.jackson.fj.GenUtils.treeGen;
+import static com.novarto.jackson.fj.GenUtils.*;
 import static com.novarto.lang.testutil.TestUtil.tryTo;
 import static fj.P.p;
 import static fj.data.Either.left;
@@ -98,6 +97,40 @@ public class FjModuleTest
 
         return property(arbHashMap(arbString, arbComplexBean).map(x -> HashMap.fromMap(x)),
                 map -> serializeDeserialize(map, type, hashMapEqual()));
+    }
+
+    public Property canDeserializeHashMapNonStringKey()
+    {
+        TypeReference<HashMap<Integer, ComplexBean>> type = new TypeReference<HashMap<Integer, ComplexBean>>()
+        {
+        };
+
+        return property(arbHashMap(arbInteger, arbComplexBean).map(x -> HashMap.fromMap(x)),
+                map -> serializeDeserialize(map, type, hashMapEqual()));
+    }
+
+    public Property canDeserializeHamt()
+    {
+        TypeReference<HashArrayMappedTrie<String, ComplexBean>> type =
+                new TypeReference<HashArrayMappedTrie<String, ComplexBean>>()
+        {
+        };
+
+        return property(hamtGen(arbString, arbComplexBean, Equal.stringEqual, Hash.stringHash),
+                hamt -> serializeDeserialize(hamt, type, hamtEqual(Equal.stringEqual, Equal.anyEqual(),
+                        Ord.p2Ord(Ord.stringOrd, complexBeanOrd()))));
+    }
+
+    public Property canDeserializeHamtNonStringKey()
+    {
+        TypeReference<HashArrayMappedTrie<Integer, ComplexBean>> type =
+                new TypeReference<HashArrayMappedTrie<Integer, ComplexBean>>()
+        {
+        };
+
+        return property(hamtGen(arbInteger, arbComplexBean, Equal.intEqual, Hash.intHash),
+                hamt -> serializeDeserialize(hamt, type,
+                        hamtEqual(Equal.intEqual, Equal.anyEqual(), Ord.p2Ord(Ord.intOrd, complexBeanOrd()))));
     }
 
     public Property canDeserializeHashSet()
@@ -222,7 +255,7 @@ public class FjModuleTest
 
 
 
-    private static <A> Property serializeDeserialize(A in, Either<Class<A>, JavaType> type, Equal<A> equal)
+    private static <A> Property serializeDeserialize(A in, Either<java.lang.Class<A>, JavaType> type, Equal<A> equal)
     {
         boolean success = tryTo(() -> {
 
@@ -238,7 +271,7 @@ public class FjModuleTest
         return prop(success);
     }
 
-    public static <A> Property serializeDeserialize(A in, Either<Class<A>, JavaType> type)
+    public static <A> Property serializeDeserialize(A in, Either<java.lang.Class<A>, JavaType> type)
     {
         return serializeDeserialize(in, type, Equal.anyEqual());
     }
@@ -258,7 +291,7 @@ public class FjModuleTest
     private static <A, B> Equal<HashMap<A, B>> hashMapEqual()
     {
         return Equal.equal(x -> y -> new java.util.HashSet<>(x.toList().toJavaList())
-                .equals(new java.util.HashSet<>(x.toList().toJavaList())));
+                .equals(new java.util.HashSet<>(y.toList().toJavaList())));
     }
 
     private static <A> Equal<HashSet<A>> hashSetEqual()
@@ -436,6 +469,23 @@ public class FjModuleTest
             sb.append('}');
             return sb.toString();
         }
+    }
+
+    private static Ord<ComplexBean> complexBeanOrd()
+    {
+        return Ord.ord((x, y) -> {
+            P2<List<Floof>, String> p1 = p(x.floofList, x.description);
+            P2<List<Floof>, String> p2 = p(y.floofList, y.description);
+
+            return Ord.p2Ord(Ord.listOrd(floofOrd()), Ord.stringOrd).compare(p1, p2);
+        });
+    }
+
+    private static Ord<Floof> floofOrd()
+    {
+        return Ord.ord((x, y) -> {
+            return Ord.listOrd(Ord.intOrd).compare(x.xs, y.xs);
+        });
     }
 
 }
