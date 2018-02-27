@@ -68,6 +68,8 @@ Currently `jackson-module-fj` supports the following `fj` data types:
 - `HashMap`
 - `Tree`
 
+The list is likely to expand. If you require support for a new data structure, open an issue, or better yet - send us a PR.
+
 ## Miscellaneous
 
 - Extensive automated testing of serializer/deserializer implementations via [property based testing](https://en.wikipedia.org/wiki/QuickCheck)
