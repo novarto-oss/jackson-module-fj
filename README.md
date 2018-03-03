@@ -20,9 +20,7 @@ repositories {
 
 dependencies {
 
-    compile('com.novarto:jackson-module-fj:0.9-SNAPSHOT') {
-        changing = true
-    }
+    compile('com.novarto:jackson-module-fj:0.9-SNAPSHOT')
 }
 ```
 You can refer to `jackson-module-fj` in Maven and other tools equivalently.
@@ -67,6 +65,7 @@ Currently `jackson-module-fj` supports the following `fj` data types:
 - `HashSet`
 - `HashMap`
 - `Tree`
+- `HashArrayMappedTrie`
 
 The list is likely to expand. If you require support for a new data structure, open an issue, or better yet - send us a PR.
 
